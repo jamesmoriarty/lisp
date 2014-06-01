@@ -6,18 +6,24 @@ class Lisp
       string.gsub('(',' ( ').gsub(')',' ) ').split
     end
 
-    def parse(tokens, representation = [])
+    def parse(tokens)
+      _parse(tokens)[0]
+    end
+
+    private
+
+    def _parse(tokens, representation = [])
       token = tokens.shift
 
       case token
       when "("
-        representation.push parse(tokens)
+        representation.push _parse(tokens)
       when ")"
         representation
       when nil
         representation
       else
-        parse(tokens, representation.push(token))
+        _parse tokens, representation.push(token)
       end
     end
   end
