@@ -52,6 +52,6 @@ class TestLisp < Minitest::Test
   # execution
 
   def test_execution
-    skip
+    assert_equal 2, Lisp.eval("(* 2 (+ 1 0) )")
   end
 end
