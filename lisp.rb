@@ -37,7 +37,7 @@ class Lisp
       when Symbol
         function  = env[atom]
         arguments = expression
-        function.call(*arguments.flatten)
+        function.call(*arguments)
       else
         expression
       end
