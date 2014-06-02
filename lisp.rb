@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+require "bundler/setup"
 
 class Lisp
   class << self
@@ -32,7 +33,7 @@ class Lisp
         when Array
           execute atom
         else
-          atom
+          env[atom] or atom
         end
       end
 
@@ -41,17 +42,23 @@ class Lisp
       # [:*, 2, 1]
       atom = representation.shift
       case atom
-      when Symbol
-        function  = env[atom]
+      when :define
+        var, *arguments = representation
+        arguments       = arguments[0]
+        env[var]        = arguments
+      when Proc
+        function  = atom
         arguments = representation
-        function.call(*arguments)
+        function.respond_to?(:call) ? function.call(*arguments) : function
+      else
+        atom
       end
     end
 
     private
 
     def env
-      {
+      @env ||= {
         :+ => Proc.new { |*args| args.inject(0, &:+) },
         :* => Proc.new { |*args| args.inject(1, &:*) }
       }

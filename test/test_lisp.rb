@@ -1,9 +1,11 @@
 #!/usr/bin/env ruby
-require 'simplecov'
+require "bundler/setup"
+require "pry"
+require "simplecov"
+require "minitest/autorun"
+
 SimpleCov.start
 
-require "bundler/setup"
-require "minitest/autorun"
 require_relative "../lisp"
 
 class TestLisp < MiniTest::Unit::TestCase
@@ -27,6 +29,13 @@ class TestLisp < MiniTest::Unit::TestCase
   # execution
 
   def test_execution
+    assert_equal 1, Lisp.execute([1])
+    assert_equal 2, Lisp.execute([:*, 2, [:+, 1, 0]])
     assert_equal 2, Lisp.eval("(* 2 (+ 1 0) )")
+  end
+
+  def test_define
+    Lisp.eval("(define pi 3.141592653)")
+    assert_equal 6.283185306, Lisp.eval("(* pi 2)")
   end
 end
