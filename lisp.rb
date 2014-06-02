@@ -14,13 +14,13 @@ class Lisp
       _parse(tokens)[0]
     end
 
-    def execute(expression, env = env)
-      return expression unless expression.is_a?(Array)
+    def execute(representation, env = env)
+      return representation unless representation.is_a?(Array)
 
       # depth first traversal of representation
       # [:*, 2, [:+, 1, 0]]
       # [:+, 1, 0]
-      expression = expression.map do |atom|
+      representation = representation.map do |atom|
         case atom
         when Array
           execute atom
@@ -32,11 +32,11 @@ class Lisp
       # depth first execution
       # [:*, 2, [:+, 1, 0]]
       # [:*, 2, 1]
-      atom = expression.shift
+      atom = representation.shift
       case atom
       when Symbol
         function  = env[atom]
-        arguments = expression
+        arguments = representation
         function.call(*arguments)
       end
     end
