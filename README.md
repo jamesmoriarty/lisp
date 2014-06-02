@@ -8,6 +8,9 @@ Lisp.eval("(* 2 (+ 1 0) )")
 # => 2
 ```
 
+Features
+--------
+
 - [x] __constant literal number__ -	A number evaluates to itself. _Example: 12 or -3.45e+6_
 
 - [x] __procedure call__ - (proc exp...)	If proc is anything other than one of the symbols if, set!, define, lambda, begin, or quote then it is treated as a procedure. It is evaluated using the same rules defined here. All the expressions are evaluated as well, and then the procedure is called with the list of expressions as arguments. _Example: (square 12) ⇒ 144_
