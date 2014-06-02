@@ -2,6 +2,13 @@
 
 class Lisp
   class << self
+    def repl
+      while true do
+        print "> "
+        puts eval(gets)
+      end
+    end
+
     def eval(string)
       execute parse(tokenize(string))
     end
@@ -72,4 +79,8 @@ class Lisp
       end
     end
   end
+end
+
+if __FILE__ == $0
+   Lisp.repl
 end
