@@ -38,8 +38,6 @@ class Lisp
         function  = env[atom]
         arguments = expression
         function.call(*arguments)
-      else
-        expression
       end
     end
 
@@ -68,8 +66,6 @@ class Lisp
       when "("
         representation.push _parse(tokens)
       when ")"
-        representation
-      when nil
         representation
       else
         _parse tokens, representation.push(atom(token))
