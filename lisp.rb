@@ -3,13 +3,6 @@ require "bundler/setup"
 
 class Lisp
   class << self
-    def repl
-      while true do
-        print "> "
-        puts eval(gets)
-      end
-    end
-
     def eval(string)
       execute parse(tokenize(string))
     end
@@ -18,8 +11,19 @@ class Lisp
       string.gsub('(',' ( ').gsub(')',' ) ').split
     end
 
-    def parse(tokens)
-      _parse(tokens)[0]
+    def parse(tokens, representation = [])
+      token = tokens.shift
+
+      case token
+      when "("
+        while tokens.first != ")" do
+          representation.push parse(tokens)
+        end
+        tokens.shift
+        representation
+      else
+        atom(token)
+      end
     end
 
     def execute(representation, env = env)
@@ -37,25 +41,33 @@ class Lisp
         end
       end
 
-      # depth first execution
+      # execution
       # [:*, 2, [:+, 1, 0]]
       # [:*, 2, 1]
       atom = representation.shift
       case atom
       when :define
-        var, *arguments = representation
-        arguments       = arguments[0]
-        env[var]        = arguments
+        var, *representation = representation
+        representation       = representation.size > 1 ? representation : representation[0]
+
+        env[var]             = execute representation
+      when :lambda
+        var, *parameters, representation = representation
+
+        env[var] = Proc.new { |*arguments| execute representation, Hash[parameters.zip(arguments)] }
       when Proc
         function  = atom
         arguments = representation
-        function.respond_to?(:call) ? function.call(*arguments) : function
+
+        if function.respond_to?(:call)
+          function.call(*arguments)
+        else
+          function
+        end
       else
         atom
       end
     end
-
-    private
 
     def env
       @env ||= {
@@ -64,25 +76,19 @@ class Lisp
       }
     end
 
+    def repl
+      while true do
+        print "> "
+        puts eval(gets)
+      end
+    end
+
     def atom(token)
       case token
       when /\d/
         token.to_f
       else
         token.to_sym
-      end
-    end
-
-    def _parse(tokens, representation = [])
-      token = tokens.shift
-
-      case token
-      when "("
-        representation.push _parse(tokens)
-      when ")"
-        representation
-      else
-        _parse tokens, representation.push(atom(token))
       end
     end
   end

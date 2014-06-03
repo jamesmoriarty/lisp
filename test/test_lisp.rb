@@ -17,7 +17,8 @@ class TestLisp < MiniTest::Unit::TestCase
   end
 
   def test_parse
-    assert_equal [:*, 2, [:+, 1, 0]], Lisp.parse(Lisp.tokenize("(* 2 (+ 1 0) )"))
+    assert_equal [:*, 2, [:+, 1, 0]],                              Lisp.parse(Lisp.tokenize("(* 2 (+ 1 0) )"))
+    assert_equal [:lambda, [:r], [:*, 3.141592653, [:*, :r, :r]]], Lisp.parse(Lisp.tokenize("(define area(lambda (r) (* 3.141592653 (* r r))))"))
   end
 
   # representation
@@ -36,6 +37,13 @@ class TestLisp < MiniTest::Unit::TestCase
 
   def test_define
     Lisp.eval("(define pi 3.141592653)")
+    
     assert_equal 6.283185306, Lisp.eval("(* pi 2)")
+  end
+
+  def test_lambda
+    Lisp.eval("(define area (lambda (r) (* 3.141592653 (* r r)))")
+
+    assert_equal 12.566370612, Lisp.eval("(area 2)")
   end
 end
