@@ -12,60 +12,40 @@ class Lisp
     end
 
     def parse(tokens, representation = [])
+      raise "unexpected: eof" if tokens.size.zero?
+
       token = tokens.shift
 
       case token
       when "("
-        while tokens.first != ")" do
+        while tokens[0] != ")" do
           representation.push parse(tokens)
         end
         tokens.shift
         representation
+      when ")"
+        raise "unexpected: )"
       else
         atom(token)
       end
     end
 
-    def execute(representation, env = env)
-      return representation unless representation.is_a?(Array)
-
-      # depth first traversal of representation
-      # [:*, 2, [:+, 1, 0]]
-      # [:+, 1, 0]
-      representation = representation.map do |atom|
-        case atom
-        when Array
-          execute atom
-        else
-          env[atom] or atom
-        end
-      end
-
-      # execution
-      # [:*, 2, [:+, 1, 0]]
-      # [:*, 2, 1]
-      atom = representation.shift
-      case atom
-      when :define
-        var, *representation = representation
-        representation       = representation.size > 1 ? representation : representation[0]
-
-        env[var]             = execute representation
-      when :lambda
-        var, *parameters, representation = representation
-
-        env[var] = Proc.new { |*arguments| execute representation, Hash[parameters.zip(arguments)] }
-      when Proc
-        function  = atom
-        arguments = representation
-
-        if function.respond_to?(:call)
-          function.call(*arguments)
-        else
-          function
-        end
+    def execute(expression, env = env)
+      if expression.is_a? Symbol
+        env[expression]
+      elsif not expression.is_a? Array
+        expression
+      elsif expression[0] == :define
+        _, var, *expression = expression
+        env[var]            = execute(expression)
+      elsif expression[0] == :lambda
+        _, parameters, expression = expression
+        Proc.new { |*arguments| execute expression, env.merge(Hash[ parameters.zip(arguments) ]) }
       else
-        atom
+        expression.map! { |expression| execute expression }
+
+        function, *arguments = expression
+        function.call(*arguments)
       end
     end
 
