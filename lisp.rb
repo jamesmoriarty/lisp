@@ -29,20 +29,24 @@ class Lisp
     end
 
     def execute(exp, scope = global)
-      if exp.is_a? Symbol
+      case exp
+      when Array
+        case exp[0]
+        when :define
+          _, var, exp = exp
+          scope[var] = execute(exp, scope)
+        when :lambda
+          _, params, exp = exp
+          proc { |*args| execute(exp, scope.merge(Hash[ params.zip(args) ])) }
+        else
+          exp.map! { |e| execute(e, scope) }
+          func, *args = exp
+          func.call(*args)
+        end
+      when Symbol
         scope[exp]
-      elsif not exp.is_a? Array
-        exp
-      elsif exp[0] == :define
-        _, var, exp = exp
-        scope[var] = execute(exp, scope)
-      elsif exp[0] == :lambda
-        _, params, exp = exp
-        proc { |*args| execute(exp, scope.merge(Hash[ params.zip(args) ])) }
       else
-        exp.map! { |e| execute(e, scope) }
-        func, *args = exp
-        func.call(*args)
+        exp
       end
     end
 
