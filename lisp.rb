@@ -18,7 +18,7 @@ class Lisp
     end
 
     def eval(string)
-      execute parse(tokenize(string))
+      execute(parse(tokenize(string)))
     end
 
     def tokenize(string)
