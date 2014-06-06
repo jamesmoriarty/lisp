@@ -38,7 +38,7 @@ class Lisp
         scope[var] = execute(exp, scope)
       elsif exp[0] == :lambda
         _, params, exp = exp
-        Proc.new { |*args| execute(exp, scope.merge!(Hash[ params.zip(args) ])) }
+        Proc.new { |*args| execute(exp, scope.merge(Hash[ params.zip(args) ])) }
       else
         exp.map! { |e| execute(e, scope) }
         func, *args = exp
