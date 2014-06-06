@@ -58,9 +58,15 @@ class Lisp
     end
 
     def repl
-      while true do
-        print "> "
-        puts eval(gets)
+      catch(:exit) do
+        loop do
+          print "> "
+          puts begin
+            eval gets
+          rescue Exception => e
+            e.message or "unkown error"
+          end
+        end
       end
     end
 
@@ -76,5 +82,6 @@ class Lisp
 end
 
 if __FILE__ == $0
+   trap("SIGINT") { throw :exit }
    Lisp.repl
 end
