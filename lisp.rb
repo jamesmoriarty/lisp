@@ -61,7 +61,7 @@ class Lisp
           puts begin
             eval gets
           rescue Exception => e
-            e.message or "unkown error"
+            e.message or "unexpected: error"
           end
         end
       end
