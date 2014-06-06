@@ -32,6 +32,9 @@ class TestLisp < MiniTest::Unit::TestCase
   def test_execution
     assert_equal 1, Lisp.execute(1)
     assert_equal 2, Lisp.execute([:*, 2, [:+, 1, 0]])
+  end
+
+  def test_eval
     assert_equal 2, Lisp.eval("(* 2 (+ 1 0) )")
   end
 
@@ -45,5 +48,13 @@ class TestLisp < MiniTest::Unit::TestCase
     Lisp.eval("(define area (lambda (r) (* 3.141592653 (* r r))))")
 
     assert_equal 28.274333877, Lisp.eval("(area 3)")
+  end
+
+  def test_repl
+    assert_output "ctrl-c to exit\n> " do
+      thread = Thread.new { Lisp.repl }
+      sleep 1.0/4.0
+      thread.terminate
+    end
   end
 end
