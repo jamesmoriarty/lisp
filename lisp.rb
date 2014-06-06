@@ -54,6 +54,7 @@ class Lisp
     end
 
     def repl
+      puts "ctrl-c to exit"
       catch(:exit) do
         loop do
           print "> "
