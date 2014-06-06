@@ -3,6 +3,20 @@ require "bundler/setup"
 
 class Lisp
   class << self
+    def repl
+      puts "ctrl-c to exit"
+      catch(:exit) do
+        loop do
+          print "> "
+          puts begin
+            eval gets
+          rescue Exception => e
+            e.message
+          end
+        end
+      end
+    end
+
     def eval(string)
       execute parse(tokenize(string))
     end
@@ -50,27 +64,6 @@ class Lisp
       end
     end
 
-    def global
-      @scope ||= {
-        :+ => Proc.new { |*args| args.inject(0, &:+) },
-        :* => Proc.new { |*args| args.inject(1, &:*) }
-      }
-    end
-
-    def repl
-      puts "ctrl-c to exit"
-      catch(:exit) do
-        loop do
-          print "> "
-          puts begin
-            eval gets
-          rescue Exception => e
-            e.message or "unexpected: error"
-          end
-        end
-      end
-    end
-
     def atom(token)
       case token
       when /\d/
@@ -78,6 +71,13 @@ class Lisp
       else
         token.to_sym
       end
+    end
+
+    def global
+      @scope ||= {
+        :+ => Proc.new { |*args| args.inject(0, &:+) },
+        :* => Proc.new { |*args| args.inject(1, &:*) }
+      }
     end
   end
 end
