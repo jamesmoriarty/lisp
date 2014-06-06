@@ -1,4 +1,6 @@
 source "https://rubygems.org"
 
-gem 'pry'
-gem 'simplecov', require: false
+group :test do
+  gem 'pry'
+  gem "codeclimate-test-reporter", require: nil
+end

@@ -1,10 +1,8 @@
 #!/usr/bin/env ruby
 require "bundler/setup"
-require "pry"
-require "simplecov"
+require "codeclimate-test-reporter"
+CodeClimate::TestReporter.start
 require "minitest/autorun"
-
-SimpleCov.start
 
 require_relative "../lisp"
 
