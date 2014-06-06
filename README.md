@@ -8,6 +8,10 @@ Lisp Interpreter in Ruby. Inspired by [Lis.py](http://norvig.com/lispy.html).
 3.14
 > (* pi 2)
 6.28
+> (define area (lambda (r) (* 3.141592653 (* r r))))
+#<Proc:0x007f8af9c59ff0@./lisp.rb:44>
+> (area 3)
+28.274333877
 ```
 
 Features
@@ -19,14 +23,15 @@ Features
 
 - [x] __variable reference__ - var	A symbol is interpreted as a variable name; its value is the variable's value. _Example: x_
 
+- [x] __definition__	- (define var exp)	Define a new variable and give it the value of evaluating the expression exp. _Examples: (define r 3) or (define square (lambda (x) (* x x)))._
+
+- [x] __procedure__	- (lambda (var...) exp)	Create a procedure with parameter(s) named var... and the expression as the body. _Example: (lambda (r) (* 3.141592653 (* r r)))_
+
 - [ ] __quotation__	- (quote exp) Return the exp literally; do not evaluate it. _Example: (quote (a b c)) ⇒ (a b c)_
 
 - [ ] __conditional__ -	(if test conseq alt)	Evaluate test; if true, evaluate and return conseq; otherwise evaluate and return alt. _Example: (if (< 10 20) (+ 1 1) (+ 3 3)) ⇒ 2_
 
 - [ ] __assignment__ -	(set! var exp)	Evaluate exp and assign that value to var, which must have been previously defined (with a define or as a parameter to an enclosing procedure). _Example: (set! x2 (* x x))_
 
-- [x] __definition__	- (define var exp)	Define a new variable and give it the value of evaluating the expression exp. _Examples: (define r 3) or (define square (lambda (x) (* x x)))._
-
-- [ ] __procedure__	- (lambda (var...) exp)	Create a procedure with parameter(s) named var... and the expression as the body. _Example: (lambda (r) (* 3.141592653 (* r r)))_
 
 - [ ] __sequencing__ -	(begin exp...)	 Evaluate each of the expressions in left-to-right order, and return the final value. _Example: (begin (set! x 1) (set! x (+ x 1)) (* x 2)) ⇒ 4_
