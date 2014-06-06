@@ -13,16 +13,13 @@ class Lisp
 
     def parse(tokens, representation = [])
       raise "unexpected: eof" if tokens.size.zero?
-
       token = tokens.shift
-
       case token
       when "("
         while tokens[0] != ")" do
           representation.push parse(tokens)
         end
         tokens.shift
-
         representation
       when ")"
         raise "unexpected: )"
