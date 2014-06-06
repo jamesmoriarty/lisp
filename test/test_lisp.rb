@@ -15,6 +15,8 @@ class TestLisp < MiniTest::Unit::TestCase
   end
 
   def test_parse
+    assert_raises(RuntimeError)                                  { Lisp.parse(Lisp.tokenize("(")) }
+    assert_raises(RuntimeError)                                  { Lisp.parse(Lisp.tokenize(")")) }
     assert_equal [:*, 2, [:+, 1, 0]],                              Lisp.parse(Lisp.tokenize("(* 2 (+ 1 0) )"))
     assert_equal [:lambda, [:r], [:*, 3.141592653, [:*, :r, :r]]], Lisp.parse(Lisp.tokenize("(lambda (r) (* 3.141592653 (* r r)))"))
   end
