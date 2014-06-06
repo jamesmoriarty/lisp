@@ -22,6 +22,7 @@ class Lisp
           representation.push parse(tokens)
         end
         tokens.shift
+
         representation
       when ")"
         raise "unexpected: )"
@@ -30,27 +31,30 @@ class Lisp
       end
     end
 
-    def execute(expression, env = env)
-      if expression.is_a? Symbol
-        env[expression]
-      elsif not expression.is_a? Array
-        expression
-      elsif expression[0] == :define
-        _, var, *expression = expression
-        env[var]            = execute(expression)
-      elsif expression[0] == :lambda
-        _, parameters, expression = expression
-        Proc.new { |*arguments| execute expression, env.merge(Hash[ parameters.zip(arguments) ]) }
+    def execute(exp, scope = global)
+      if exp.is_a? Symbol
+        scope[exp]
+      elsif not exp.is_a? Array
+        exp
+      elsif exp[0] == :define
+        _, var, exp = exp
+        scope[var] = execute(exp, scope)
+      elsif exp[0] == :lambda
+        _, params, exp = exp
+        Proc.new { |*args| execute(exp, scope.merge!(Hash[ params.zip(args) ])) }
       else
-        expression.map! { |expression| execute expression }
-
-        function, *arguments = expression
-        function.call(*arguments)
+        exp.map! { |e| execute(e, scope) }
+        func, *args = exp
+        if func.respond_to?(:call)
+          func.call(*args)
+        else
+          func
+        end
       end
     end
 
-    def env
-      @env ||= {
+    def global
+      @scope ||= {
         :+ => Proc.new { |*args| args.inject(0, &:+) },
         :* => Proc.new { |*args| args.inject(1, &:*) }
       }
