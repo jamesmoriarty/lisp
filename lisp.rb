@@ -42,11 +42,7 @@ class Lisp
       else
         exp.map! { |e| execute(e, scope) }
         func, *args = exp
-        if func.respond_to?(:call)
-          func.call(*args)
-        else
-          func
-        end
+        func.call(*args)
       end
     end
 

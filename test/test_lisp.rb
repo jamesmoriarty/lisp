@@ -28,7 +28,7 @@ class TestLisp < MiniTest::Unit::TestCase
   # execution
 
   def test_execution
-    assert_equal 1, Lisp.execute([1])
+    assert_equal 1, Lisp.execute(1)
     assert_equal 2, Lisp.execute([:*, 2, [:+, 1, 0]])
     assert_equal 2, Lisp.eval("(* 2 (+ 1 0) )")
   end
