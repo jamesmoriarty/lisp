@@ -1,6 +1,8 @@
 lisp-rb
 =======
 
+[![Code Climate](https://codeclimate.com/github/jamesmoriarty/lisp-rb.png)](https://codeclimate.com/github/jamesmoriarty/lisp-rb)
+
 Lisp Interpreter in Ruby. Inspired by [Lis.py](http://norvig.com/lispy.html).
 
 ```
