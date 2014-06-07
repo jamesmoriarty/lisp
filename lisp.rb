@@ -74,10 +74,14 @@ class Lisp
     end
 
     def global
-      @scope ||= {
-        :+ => Proc.new { |*args| args.inject(0, &:+) },
-        :* => Proc.new { |*args| args.inject(1, &:*) }
-      }
+      @scope ||= begin
+        scope = { }
+        scope.merge!(Hash[ Math.methods(false).map { |name| [ name, Math.method(name) ] } ])
+        scope.merge!({
+          :+ => Proc.new { |*args| args.inject(0, &:+) },
+          :* => Proc.new { |*args| args.inject(1, &:*) },
+        })
+      end
     end
   end
 end
