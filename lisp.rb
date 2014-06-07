@@ -38,7 +38,16 @@ class Lisp
       when ")"
         raise "unexpected: )"
       else
-        atom(token)
+        evaluator(token)
+      end
+    end
+
+    def evaluator(token)
+      case token
+      when /\d/
+        token.to_f
+      else
+        token.to_sym
       end
     end
 
@@ -61,15 +70,6 @@ class Lisp
         scope[exp]
       else
         exp
-      end
-    end
-
-    def atom(token)
-      case token
-      when /\d/
-        token.to_f
-      else
-        token.to_sym
       end
     end
 
