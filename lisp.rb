@@ -25,16 +25,16 @@ class Lisp
       string.gsub("("," ( ").gsub(")"," ) ").split
     end
 
-    def parse(tokens, representation = [])
+    def parse(tokens, tree = [])
       raise "unexpected: eof" if tokens.size.zero?
       token = tokens.shift
       case token
       when "("
         while tokens[0] != ")" do
-          representation.push parse(tokens)
+          tree.push parse(tokens)
         end
         tokens.shift
-        representation
+        tree
       when ")"
         raise "unexpected: )"
       else
