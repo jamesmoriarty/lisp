@@ -22,7 +22,7 @@ class Lisp
     end
 
     def tokenize(string)
-      string.gsub('(',' ( ').gsub(')',' ) ').split
+      string.gsub("("," ( ").gsub(")"," ) ").split
     end
 
     def parse(tokens, representation = [])
