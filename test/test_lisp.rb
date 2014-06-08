@@ -16,8 +16,8 @@ class TestLisp < MiniTest::Unit::TestCase
   end
 
   def test_parse
-    assert_raises(RuntimeError)                                  { Lisp.parse(Lisp.tokenize("(")) }
-    assert_raises(RuntimeError)                                  { Lisp.parse(Lisp.tokenize(")")) }
+    assert_raises(RuntimeError) { Lisp.parse(Lisp.tokenize("(")) }
+    assert_raises(RuntimeError) { Lisp.parse(Lisp.tokenize(")")) }
   end
 
   # representation
