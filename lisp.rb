@@ -79,18 +79,10 @@ class Lisp
 
     def global
       @scope ||= begin
-        {
-          :==   => Proc.new { |*args| args.inject(&:==) },
-          :"!=" => Proc.new { |*args| args.inject(&:"!=") },
-          :"<"  => Proc.new { |*args| args.inject(&:"<") },
-          :"<=" => Proc.new { |*args| args.inject(&:"<=") },
-          :">"  => Proc.new { |*args| args.inject(&:">") },
-          :">=" => Proc.new { |*args| args.inject(&:">=") },
-          :+    => Proc.new { |*args| args.inject(&:+) },
-          :-    => Proc.new { |*args| args.inject(&:-) },
-          :*    => Proc.new { |*args| args.inject(&:*) },
-          :/    => Proc.new { |*args| args.inject(&:/) },
-        }
+        methods = [:==, :"!=", :"<", :"<=", :">", :">=", :+, :-, :*, :/]
+        methods.inject({}) do |methods, method|
+          methods.merge(method => Proc.new { |*args| args.inject(&method) })
+        end
       end
     end
   end

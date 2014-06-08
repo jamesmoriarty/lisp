@@ -3,6 +3,7 @@ require "bundler/setup"
 require "codeclimate-test-reporter"
 CodeClimate::TestReporter.start
 require "minitest/autorun"
+require "pry"
 
 require_relative "../lisp"
 
