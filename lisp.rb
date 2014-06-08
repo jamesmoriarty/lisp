@@ -60,14 +60,14 @@ class Lisp
           scope[var] = execute(exp, scope)
         when :lambda
           _, params, exp = exp
-          proc { |*args| execute(exp, scope.merge(Hash[ params.zip(args) ])) }
+          lambda { |*args| execute(exp, Scope.new(params, args, scope)) }
         when :if
           _, test, conseq, alt = exp
           exp = execute(test, scope) ? conseq : alt
           execute(exp, scope)
         else
-          exp.map! { |e| execute(e, scope) }
-          func, *args = exp
+          exps = exp.map { |exp| execute(exp, scope) }
+          func, *args = exps
           func.call(*args)
         end
       when Symbol
@@ -80,10 +80,21 @@ class Lisp
     def global
       @scope ||= begin
         methods = [:==, :"!=", :"<", :"<=", :">", :">=", :+, :-, :*, :/]
-        methods.inject({}) do |methods, method|
-          methods.merge(method => proc { |*args| args.inject(&method) })
+        methods.inject(Scope.new) do |methods, method|
+          methods.merge(method => lambda { |*args| args.inject(&method) })
         end
       end
+    end
+  end
+
+  class Scope < Hash
+    def initialize(params = [], args = [], outer = nil)
+      update(Hash[params.zip(args)])
+      @outer = outer
+    end
+
+    def [](name)
+      super or @outer[name]
     end
   end
 end
