@@ -66,8 +66,7 @@ class Lisp
           exp = execute(test, scope) ? conseq : alt
           execute(exp, scope)
         else
-          exps = exp.map { |exp| execute(exp, scope) }
-          func, *args = exps
+          func, *args = exp.map { |exp| execute(exp, scope) }
           func.call(*args)
         end
       when Symbol
