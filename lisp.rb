@@ -80,8 +80,8 @@ class Lisp
     def global
       @scope ||= begin
         methods = [:==, :"!=", :"<", :"<=", :">", :">=", :+, :-, :*, :/]
-        methods.inject(Scope.new) do |methods, method|
-          methods.merge(method => lambda { |*args| args.inject(&method) })
+        methods.inject(Scope.new) do |scope, method|
+          scope.merge(method => lambda { |*args| args.inject(&method) })
         end
       end
     end
