@@ -48,6 +48,10 @@ class TestLisp < MiniTest::Unit::TestCase
     Lisp.eval("(define area (lambda (r) (* 3.141592653 (* r r))))")
 
     assert_equal 28.274333877, Lisp.eval("(area 3)")
+
+    Lisp.eval("(define fact (lambda (n) (if (<= n 1) 1 (* n (fact (- n 1))))))")
+
+    assert_equal 3628800, Lisp.eval("(fact 10)")
   end
 
   def test_repl

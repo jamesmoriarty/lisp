@@ -60,7 +60,11 @@ class Lisp
           scope[var] = execute(exp, scope)
         when :lambda
           _, params, exp = exp
-          proc { |*args| execute(exp, scope.merge(Hash[ params.zip(args) ])) }
+          -> (*args) { execute(exp, scope.merge(Hash[ params.zip(args) ])) }
+        when :if
+          _, test, conseq, alt = exp
+          exp = execute(test, scope) ? conseq : alt
+          execute(exp, scope)
         else
           exp.map! { |e| execute(e, scope) }
           func, *args = exp
@@ -75,12 +79,18 @@ class Lisp
 
     def global
       @scope ||= begin
-        scope = { }
-        scope.merge!(Hash[ Math.methods(false).map { |name| [ name, Math.method(name) ] } ])
-        scope.merge!({
-          :+ => Proc.new { |*args| args.inject(0, &:+) },
-          :* => Proc.new { |*args| args.inject(1, &:*) },
-        })
+        {
+          :==   => Proc.new { |*args| args.inject(&:==) },
+          :"!=" => Proc.new { |*args| args.inject(&:"!=") },
+          :"<"  => Proc.new { |*args| args.inject(&:"<") },
+          :"<=" => Proc.new { |*args| args.inject(&:"<=") },
+          :">"  => Proc.new { |*args| args.inject(&:">") },
+          :">=" => Proc.new { |*args| args.inject(&:">=") },
+          :+    => Proc.new { |*args| args.inject(&:+) },
+          :-    => Proc.new { |*args| args.inject(&:-) },
+          :*    => Proc.new { |*args| args.inject(&:*) },
+          :/    => Proc.new { |*args| args.inject(&:/) },
+        }
       end
     end
   end
