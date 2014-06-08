@@ -88,13 +88,15 @@ class Lisp
   end
 
   class Scope < Hash
+    attr_accessor :outer
+
     def initialize(params = [], args = [], outer = nil)
       update(Hash[params.zip(args)])
-      @outer = outer
+      self.outer = outer
     end
 
     def [](name)
-      super or @outer[name]
+      super or outer[name]
     end
   end
 end
