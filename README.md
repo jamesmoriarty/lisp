@@ -20,6 +20,14 @@ Lisp Interpreter in Ruby. Inspired by [Lis.py](http://norvig.com/lispy.html).
 3628800.0
 ```
 
+Install
+-------
+[![Gem Version](https://badge.fury.io/rb/lisp.svg)](http://badge.fury.io/rb/lisp)
+
+```
+gem install lisp
+```
+
 Features
 --------
 
