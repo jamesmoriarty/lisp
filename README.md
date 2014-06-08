@@ -14,6 +14,10 @@ Lisp Interpreter in Ruby. Inspired by [Lis.py](http://norvig.com/lispy.html).
 #<Proc:0x007f8af9c59ff0@./lisp.rb:44>
 > (area 3)
 28.274333877
+> (define fact (lambda (n) (if (<= n 1) 1 (* n (fact (- n 1))))))
+#<Proc:0x007f9a4cc4acf0@./lisp.rb:63 (lambda)>
+> (fact 10)
+3628800.0
 ```
 
 Features
