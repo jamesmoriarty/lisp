@@ -1,4 +1,6 @@
 #!/usr/bin/env ruby
+
+require "lisp/version"
 require "bundler/setup"
 
 class Lisp

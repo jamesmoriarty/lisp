@@ -1,6 +1,7 @@
 source "https://rubygems.org"
 
-group :test do
-  gem 'pry'
+group :development do
   gem "codeclimate-test-reporter", require: nil
 end
+
+gemspec

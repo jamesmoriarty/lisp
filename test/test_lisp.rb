@@ -5,7 +5,7 @@ CodeClimate::TestReporter.start
 require "minitest/autorun"
 require "pry"
 
-require_relative "../lisp"
+require_relative "../lib/lisp"
 
 class TestLisp < MiniTest::Unit::TestCase
 
