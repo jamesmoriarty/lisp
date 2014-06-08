@@ -60,7 +60,7 @@ class Lisp
           scope[var] = execute(exp, scope)
         when :lambda
           _, params, exp = exp
-          -> (*args) { execute(exp, scope.merge(Hash[ params.zip(args) ])) }
+          proc { |*args| execute(exp, scope.merge(Hash[ params.zip(args) ])) }
         when :if
           _, test, conseq, alt = exp
           exp = execute(test, scope) ? conseq : alt
@@ -81,7 +81,7 @@ class Lisp
       @scope ||= begin
         methods = [:==, :"!=", :"<", :"<=", :">", :">=", :+, :-, :*, :/]
         methods.inject({}) do |methods, method|
-          methods.merge(method => Proc.new { |*args| args.inject(&method) })
+          methods.merge(method => proc { |*args| args.inject(&method) })
         end
       end
     end
