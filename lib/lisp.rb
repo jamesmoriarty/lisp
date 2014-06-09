@@ -2,7 +2,6 @@
 
 require "bundler/setup"
 require "lisp/version"
-require "lisp/scope"
 
 module Lisp
   def self.repl
@@ -62,7 +61,7 @@ module Lisp
         scope[var] = execute(exp, scope)
       when :lambda
         _, params, exp = exp
-        lambda { |*args| execute(exp, Scope.new(params, args, scope)) }
+        lambda { |*args| execute(exp, scope.merge(Hash[params.zip(args)])) }
       when :if
         _, test, conseq, alt = exp
         exp = execute(test, scope) ? conseq : alt
@@ -81,7 +80,7 @@ module Lisp
   def self.global
     @scope ||= begin
       methods = [:==, :"!=", :"<", :"<=", :">", :">=", :+, :-, :*, :/]
-      methods.inject(Scope.new) do |scope, method|
+      methods.inject({}) do |scope, method|
         scope.merge(method => lambda { |*args| args.inject(&method) })
       end
     end
