@@ -1,3 +1,3 @@
-class Lisp
-  VERSION = "0.0.1"
+module Lisp
+  VERSION = "1.0.0"
 end
