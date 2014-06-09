@@ -6,6 +6,10 @@ lisp-rb
 Lisp Interpreter in Ruby. Inspired by [Lis.py](http://norvig.com/lispy.html).
 
 ```
+> require 'lisp'
+=> true
+> Lisp.repl
+ctrl-c to exit
 > (define pi 3.14)
 3.14
 > (* pi 2)
