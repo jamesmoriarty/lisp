@@ -53,27 +53,23 @@ module Lisp
   end
 
   def self.execute(exp, scope = global)
-    case exp
-    when Array
-      case exp[0]
-      when :define
-        _, var, exp = exp
-        scope[var] = execute(exp, scope)
-      when :lambda
-        _, params, exp = exp
-        lambda { |*args| execute(exp, scope.merge(Hash[params.zip(args)])) }
-      when :if
-        _, test, conseq, alt = exp
-        exp = execute(test, scope) ? conseq : alt
-        execute(exp, scope)
-      else
-        func, *args = exp.map { |exp| execute(exp, scope) }
-        func.call(*args)
-      end
-    when Symbol
-      scope[exp]
+    return scope[exp] if     exp.is_a? Symbol
+    return exp        unless exp.is_a? Array
+
+    case exp[0]
+    when :define
+      _, var, exp = exp
+      scope[var] = execute(exp, scope)
+    when :lambda
+      _, params, exp = exp
+      lambda { |*args| execute(exp, scope.merge(Hash[params.zip(args)])) }
+    when :if
+      _, test, conseq, alt = exp
+      exp = execute(test, scope) ? conseq : alt
+      execute(exp, scope)
     else
-      exp
+      func, *args = exp.map { |exp| execute(exp, scope) }
+      func.call(*args)
     end
   end
 
