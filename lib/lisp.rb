@@ -75,9 +75,9 @@ module Lisp
 
   def self.global
     @scope ||= begin
-      methods = [:==, :"!=", :"<", :"<=", :">", :">=", :+, :-, :*, :/]
-      methods.inject({}) do |scope, method|
-        scope.merge(method => lambda { |*args| args.inject(&method) })
+      operators = [:==, :"!=", :"<", :"<=", :">", :">=", :+, :-, :*, :/]
+      operators.inject({}) do |scope, operator|
+        scope.merge(operator => lambda { |*args| args.inject(&operator) })
       end
     end
   end
