@@ -1,23 +1,8 @@
-#!/usr/bin/env ruby
-
 require "bundler/setup"
 require "lisp/version"
+require "lisp/repl"
 
 module Lisp
-  def self.repl
-    puts "ctrl-c to exit"
-    catch(:exit) do
-      loop do
-        print "> "
-        puts begin
-          eval gets
-        rescue Exception => e
-          e.message
-        end
-      end
-    end
-  end
-
   def self.eval(string)
     execute(parse(tokenize(string)))
   end
@@ -81,9 +66,4 @@ module Lisp
       end
     end
   end
-end
-
-if __FILE__ == $0
-   trap("SIGINT") { throw :exit }
-   Lisp.repl
 end

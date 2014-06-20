@@ -54,12 +54,4 @@ class TestLisp < MiniTest::Unit::TestCase
     Lisp.eval("(define fact (lambda (n) (if (<= n 1) 1 (* n (fact (- n 1))))))")
     assert_equal 3628800, Lisp.eval("(fact 10)")
   end
-
-  def test_repl
-    assert_output "ctrl-c to exit\n> " do
-      thread = Thread.new { Lisp.repl }
-      sleep 1.0/10.0
-      thread.terminate
-    end
-  end
 end
