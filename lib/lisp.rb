@@ -61,6 +61,9 @@ module Lisp
         raise "#{var} must be defined before you can set! it"
       end
       scope[var] = execute(exp, scope)
+    when :begin
+      _ = exp.shift
+      exp.map { |exp| execute(exp) }.last
     else
       func, *args = exp.map { |exp| execute(exp, scope) }
       func.call(*args)

@@ -70,4 +70,8 @@ class TestLisp < MiniTest::Unit::TestCase
     assert_equal -42, Lisp.eval('(set! foo (* -1 foo))')
   end
 
+  def test_sequencing
+    assert_equal 4, Lisp.eval('(begin (define x 1) (set! x (+ x 1)) (* x 2))')
+  end
+
 end
