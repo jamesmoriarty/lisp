@@ -54,4 +54,9 @@ class TestLisp < MiniTest::Unit::TestCase
     Lisp.eval("(define fact (lambda (n) (if (<= n 1) 1 (* n (fact (- n 1))))))")
     assert_equal 3628800, Lisp.eval("(fact 10)")
   end
+
+  def test_quote
+    assert_equal [:a, :b, :c], Lisp.eval('(quote (a b c))')
+  end
+
 end

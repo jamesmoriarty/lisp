@@ -45,7 +45,7 @@ Features
 
 - [x] __conditional__ -	(if test conseq alt)	Evaluate test; if true, evaluate and return conseq; otherwise evaluate and return alt. _Example: (if (< 10 20) (+ 1 1) (+ 3 3)) ⇒ 2_
 
-- [ ] __quotation__	- (quote exp) Return the exp literally; do not evaluate it. _Example: (quote (a b c)) ⇒ (a b c)_
+- [x] __quotation__	- (quote exp) Return the exp literally; do not evaluate it. _Example: (quote (a b c)) ⇒ (a b c)_
 
 - [ ] __assignment__ -	(set! var exp)	Evaluate exp and assign that value to var, which must have been previously defined (with a define or as a parameter to an enclosing procedure). _Example: (set! x2 (* x x))_
 

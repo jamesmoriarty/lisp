@@ -52,6 +52,9 @@ module Lisp
       _, test, conseq, alt = exp
       exp = execute(test, scope) ? conseq : alt
       execute(exp, scope)
+    when :quote
+      _, exp = exp
+      exp
     else
       func, *args = exp.map { |exp| execute(exp, scope) }
       func.call(*args)
