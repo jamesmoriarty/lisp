@@ -55,6 +55,12 @@ module Lisp
     when :quote
       _, exp = exp
       exp
+    when :set!
+      _, var, exp = exp
+      unless scope.has_key?(var)
+        raise "#{var} must be defined before you can set! it"
+      end
+      scope[var] = execute(exp, scope)
     else
       func, *args = exp.map { |exp| execute(exp, scope) }
       func.call(*args)

@@ -59,4 +59,15 @@ class TestLisp < MiniTest::Unit::TestCase
     assert_equal [:a, :b, :c], Lisp.eval('(quote (a b c))')
   end
 
+  def test_assignment
+    ex = assert_raises(RuntimeError) { Lisp.eval('(set! foo 42)') }
+    assert_equal 'foo must be defined before you can set! it', ex.message
+
+    Lisp.eval('(define foo 3.14)')
+    assert_equal 42, Lisp.eval('(set! foo 42)')
+    assert_equal 42, Lisp.eval('(* 1 foo)')
+
+    assert_equal -42, Lisp.eval('(set! foo (* -1 foo))')
+  end
+
 end
