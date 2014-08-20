@@ -74,4 +74,9 @@ class TestLisp < MiniTest::Unit::TestCase
     assert_equal 4, Lisp.eval('(begin (define x 1) (set! x (+ x 1)) (* x 2))')
   end
 
+  def test_display
+    assert_output("Hello World! 42\n")  { Lisp.eval('(display Hello World! 42)') }
+    assert_output("Evaluated: 3.14\n") { Lisp.eval('(display Evaluated: (* 1 3.14))') }
+  end
+
 end

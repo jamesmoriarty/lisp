@@ -30,8 +30,10 @@ module Lisp
 
   def self.evaluator(token)
     case token
-    when /\d/
+    when /\d*\.\d*/
       token.to_f
+    when /\d/
+      token.to_i
     else
       token.to_sym
     end
@@ -64,6 +66,9 @@ module Lisp
     when :begin
       _ = exp.shift
       exp.map { |exp| execute(exp) }.last
+    when :display
+      _ = exp.shift
+      exp.map { |exp| execute(exp) || exp }.join(' ').tap { |str| puts str }
     else
       func, *args = exp.map { |exp| execute(exp, scope) }
       func.call(*args)
