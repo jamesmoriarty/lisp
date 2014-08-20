@@ -54,4 +54,29 @@ class TestLisp < MiniTest::Unit::TestCase
     Lisp.eval("(define fact (lambda (n) (if (<= n 1) 1 (* n (fact (- n 1))))))")
     assert_equal 3628800, Lisp.eval("(fact 10)")
   end
+
+  def test_quote
+    assert_equal [:a, :b, :c], Lisp.eval('(quote (a b c))')
+  end
+
+  def test_assignment
+    ex = assert_raises(RuntimeError) { Lisp.eval('(set! foo 42)') }
+    assert_equal 'foo must be defined before you can set! it', ex.message
+
+    Lisp.eval('(define foo 3.14)')
+    assert_equal 42, Lisp.eval('(set! foo 42)')
+    assert_equal 42, Lisp.eval('(* 1 foo)')
+
+    assert_equal -42, Lisp.eval('(set! foo (* -1 foo))')
+  end
+
+  def test_sequencing
+    assert_equal 4, Lisp.eval('(begin (define x 1) (set! x (+ x 1)) (* x 2))')
+  end
+
+  def test_display
+    assert_output("Hello World! 42\n")  { Lisp.eval('(display Hello World! 42)') }
+    assert_output("Evaluated: 3.14\n") { Lisp.eval('(display Evaluated: (* 1 3.14))') }
+  end
+
 end
