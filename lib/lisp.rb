@@ -52,6 +52,12 @@ module Lisp
       _, test, conseq, alt = exp
       exp = execute(test, scope) ? conseq : alt
       execute(exp, scope)
+    when :set!
+      _, var, exp = exp
+      if scope.has_key?(var) then scope[var] = execute(exp, scope) else raise "#{var} is undefined" end
+    when :begin
+      _, *exp = exp
+      exp.map { |exp| execute(exp) }.last
     else
       func, *args = exp.map { |exp| execute(exp, scope) }
       func.call(*args)
