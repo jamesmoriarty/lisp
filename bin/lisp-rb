@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
 
-require "lisp"
+require_relative "../lib/lisp"
 
 Lisp.repl
