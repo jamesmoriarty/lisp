@@ -30,7 +30,7 @@ module Lisp
 
   def self.evaluator(token)
     case token
-    when /^\d+$/
+    when /\d/
       token.to_f
     else
       token.to_sym
