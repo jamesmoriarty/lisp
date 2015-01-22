@@ -13,8 +13,8 @@ module Lisp
 
   def self.parse(tokens, tree = [])
     raise "unexpected: eof" if tokens.size.zero?
-    token = tokens.shift
-    case token
+
+    case token = tokens.shift
     when "("
       while tokens[0] != ")" do
         tree.push parse(tokens)
