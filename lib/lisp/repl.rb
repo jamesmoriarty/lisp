@@ -8,16 +8,12 @@ module Lisp
     catch(:exit) do
       loop do
         puts begin
-          eval input.readline
+          eval Coolline.new.readline
         rescue Exception => e
           e.message
         end
       end
     end
-  end
-
-  def self.input
-    Coolline.new
   end
 end
 
