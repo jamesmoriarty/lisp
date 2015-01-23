@@ -1,4 +1,3 @@
-require "bundler/setup"
 require "lisp/version"
 require "lisp/repl"
 
