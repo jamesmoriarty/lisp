@@ -1,3 +1,5 @@
+$:.unshift File.dirname(__FILE__)
+
 require "lisp/version"
 require "lisp/repl"
 
