@@ -4,32 +4,32 @@ require "lisp/version"
 require "lisp/repl"
 
 module Lisp
-  def self.eval(string)
-    execute(parse(tokenize(string)))
+  def self.eval string
+    execute parse tokenize string
   end
 
-  def self.tokenize(string)
+  def self.tokenize string
     string.gsub("("," ( ").gsub(")"," ) ").split
   end
 
-  def self.parse(tokens, tree = [])
+  def self.parse tokens, tree = []
     raise "unexpected: eof" if tokens.size.zero?
 
     case token = tokens.shift
     when "("
       while tokens[0] != ")" do
-        tree.push parse(tokens)
+        tree.push parse tokens
       end
       tokens.shift
       tree
     when ")"
       raise "unexpected: )"
     else
-      evaluator(token)
+      atom token
     end
   end
 
-  def self.evaluator(token)
+  def self.atom token
     case token
     when /\d/
       token.to_f
@@ -38,30 +38,30 @@ module Lisp
     end
   end
 
-  def self.execute(exp, scope = global)
-    return scope[exp] if     exp.is_a? Symbol
-    return exp        unless exp.is_a? Array
+  def self.execute expression, scope = global
+    return scope[expression] if     expression.is_a? Symbol
+    return expression        unless expression.is_a? Array
 
-    case exp[0]
+    case expression[0]
     when :define
-      _, var, exp = exp
-      scope[var] = execute(exp, scope)
+      _, var, expression = expression
+      scope[var]         = execute expression, scope
     when :lambda
-      _, params, exp = exp
-      lambda { |*args| execute(exp, scope.merge(Hash[params.zip(args)])) }
+      _, params, expression = expression
+      lambda { |*args| execute expression, scope.merge(Hash[params.zip(args)]) }
     when :if
-      _, test, conseq, alt = exp
-      exp = execute(test, scope) ? conseq : alt
-      execute(exp, scope)
+      _, test, consequent, alternative = expression
+      expression                       = if execute test, scope then consequent else alternative end
+      execute expression, scope
     when :set!
-      _, var, exp = exp
-      if scope.has_key?(var) then scope[var] = execute(exp, scope) else raise "#{var} is undefined" end
+      _, var, expression                     = expression
+      if scope.has_key?(var) then scope[var] = execute expression, scope else raise "#{var} is undefined" end
     when :begin
-      _, *exp = exp
-      exp.map { |exp| execute(exp) }.last
+      _, *expression = expression
+      expression.map { |expression| execute expression }.last
     else
-      func, *args = exp.map { |exp| execute(exp, scope) }
-      func.call(*args)
+      function, *args = expression.map { |expression| execute expression, scope }
+      function.call *args
     end
   end
 
@@ -69,7 +69,7 @@ module Lisp
     @scope ||= begin
       operators = [:==, :"!=", :"<", :"<=", :">", :">=", :+, :-, :*, :/]
       operators.inject({}) do |scope, operator|
-        scope.merge(operator => lambda { |*args| args.inject(&operator) })
+        scope.merge operator => lambda { |*args| args.inject &operator }
       end
     end
   end
