@@ -1,7 +1,7 @@
 lisp-rb
 =======
 
-[![Code Climate](https://codeclimate.com/github/jamesmoriarty/lisp-rb.png)](https://codeclimate.com/github/jamesmoriarty/lisp-rb) [![Code Climate](https://codeclimate.com/github/jamesmoriarty/lisp-rb/coverage.png)](https://codeclimate.com/github/jamesmoriarty/lisp-rb)
+[![Code Climate](https://codeclimate.com/github/jamesmoriarty/lisp-rb/badges/gpa.svg)](https://codeclimate.com/github/jamesmoriarty/lisp-rb) [![Test Coverage](https://codeclimate.com/github/jamesmoriarty/lisp-rb/badges/coverage.svg)](https://codeclimate.com/github/jamesmoriarty/lisp-rb/coverage)
 
 Lisp Interpreter in Ruby. Inspired by [Lis.py](http://norvig.com/lispy.html).
 
