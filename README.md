@@ -1,5 +1,5 @@
-lisp-rb
-=======
+lisp
+====
 
 [![Code Climate](https://codeclimate.com/github/jamesmoriarty/lisp-rb/badges/gpa.svg)](https://codeclimate.com/github/jamesmoriarty/lisp-rb) [![Test Coverage](https://codeclimate.com/github/jamesmoriarty/lisp-rb/badges/coverage.svg)](https://codeclimate.com/github/jamesmoriarty/lisp-rb/coverage)
 
