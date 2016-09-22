@@ -52,6 +52,11 @@ class TestLisp < MiniTest::Unit::TestCase
     assert_raises(RuntimeError) { Lisp.eval("(set! foo 0)") }
   end
 
+  def test_quote
+    assert_equal [1,2,3], Lisp.eval("(quote (1 2 3))")
+    assert_equal [0,1,2,3], Lisp.eval("(+ (quote (0)) (quote (1 2 3)))")
+  end
+
   def test_begin
     assert_equal 4, Lisp.eval("(begin (define x 1) (set! x (+ x 1)) (* x 2))")
   end
