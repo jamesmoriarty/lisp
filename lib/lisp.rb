@@ -39,7 +39,6 @@ module Lisp
   end
 
   def self.execute expression, scope = global
-    # require "pry"; binding.pry
     return scope[expression] if     expression.is_a? Symbol
     return expression        unless expression.is_a? Array
 
