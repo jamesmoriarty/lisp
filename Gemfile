@@ -1,6 +1,7 @@
 source "https://rubygems.org"
 
-group :development do
+group :test do
+  gem "simplecov"
   gem "codeclimate-test-reporter", require: nil
 end
 

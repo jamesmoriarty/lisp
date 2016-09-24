@@ -32,13 +32,14 @@ module Lisp
   def self.atom token
     case token
     when /\d/
-      token.to_f
+      token.to_f % 1 > 0 ? token.to_f : token.to_i
     else
       token.to_sym
     end
   end
 
   def self.execute expression, scope = global
+    # require "pry"; binding.pry
     return scope[expression] if     expression.is_a? Symbol
     return expression        unless expression.is_a? Array
 
