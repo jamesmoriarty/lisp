@@ -32,7 +32,7 @@ module Lisp
   def self.atom token
     case token
     when /\d/
-      token.to_f
+      token.to_f % 1 > 0 ? token.to_f : token.to_i
     else
       token.to_sym
     end
