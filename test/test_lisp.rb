@@ -38,8 +38,11 @@ class TestLisp < MiniTest::Unit::TestCase
   end
 
   def test_define
-    Lisp.eval("(define pi 3.141592653)")
-    assert_equal 6.283185306, Lisp.eval("(* pi 2)")
+    assert_equal 6.283185306, Lisp.eval(<<-eos)
+      (begin
+        (define pi 3.141592653)
+        (* pi 2))
+    eos
   end
 
   def test_if
@@ -53,42 +56,51 @@ class TestLisp < MiniTest::Unit::TestCase
 
   def test_begin
     assert_equal 4, Lisp.eval(<<-eos)
-    (begin
-      (define x 1)
-      (set! x (+ x 1)) (* x 2))
+      (begin
+        (define x 1)
+        (set! x (+ x 1)) (* x 2))
     eos
   end
 
   def test_lambda
-    Lisp.eval("(define area (lambda (r) (* 3.141592653 (* r r))))")
-    assert_equal 28.274333877, Lisp.eval("(area 3)")
+    assert_equal 28.274333877, Lisp.eval(<<-eos)
+      (begin
+        (define area
+          (lambda (r)
+            (* 3.141592653 (* r r))))
+        (area 3))
+    eos
   end
 
   def test_lambda_call_self
-    Lisp.eval(<<-eos)
-    (define fact
-      (lambda (n)
-        (if (<= n 1)
-        1
-        (* n (fact (- n 1))))))
+    assert_equal 3628800, Lisp.eval(<<-eos)
+      (begin
+        (define fact
+          (lambda (n)
+            (if (<= n 1)
+              1
+              (* n (fact (- n 1))))))
+        (fact 10))
     eos
-    assert_equal 3628800, Lisp.eval("(fact 10)")
   end
 
   def test_lambda_call_arg
-    Lisp.eval("(define twice (lambda (x) (* 2 x)))")
-    Lisp.eval("(define repeat (lambda (f) (lambda (x) (f (f x)))))")
-    assert_equal 40, Lisp.eval("((repeat twice) 10))")
+    assert_equal 40, Lisp.eval(<<-eos)
+      (begin
+        (define twice (lambda (x) (* 2 x)))
+        (define repeat (lambda (f) (lambda (x) (f (f x)))))
+        ((repeat twice) 10)))
+    eos
   end
 
   def test_program
     assert_equal 2, Lisp.eval(<<-eos)
-    (begin
-      (define incf
-        (lambda (x)
-        (set! x (+ x 1))))
-      (define one 1)
-      (incf one))
+      (begin
+        (define incf
+          (lambda (x)
+            (set! x (+ x 1))))
+        (define one 1)
+        (incf one))
     eos
   end
 end
