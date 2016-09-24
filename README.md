@@ -8,18 +8,14 @@ Lisp Interpreter in the Ruby Programming Language - 70 LOC. Inspired by [Lis.py]
 ```
 $ lisp-rb
 ctrl-c to exit
-> (define pi 3.14)
-3.14
-> (* pi 2)
-6.28
-> (define area (lambda (r) (* 3.141592653 (* r r))))
-#<Proc:0x007f8af9c59ff0@./lisp.rb:44>
-> (area 3)
-28.274333877
-> (define fact (lambda (n) (if (<= n 1) 1 (* n (fact (- n 1))))))
-#<Proc:0x007f9a4cc4acf0@./lisp.rb:63 (lambda)>
-> (fact 10)
-3628800.0
+>       (begin                                                                  
+(>         (define incf                                                         
+((>           (lambda (x)                                                       
+(((>             (set! x (+ x 1))))                                             
+(>         (define one 1)                                                       
+(>         (incf one))                                                          
+2
+>                                      
 ```
 
 Install
