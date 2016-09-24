@@ -103,4 +103,18 @@ class TestLisp < MiniTest::Unit::TestCase
         (incf one))
     eos
   end
+
+  def test_repl
+    pid     = Process.pid
+    subject = Lisp::REPL.new
+    thread  = Thread.new do
+      sleep 1
+      Process.kill("INT", pid)
+      thread.join
+    end
+    
+    assert_output("ctrl-c to exit\n") do
+      subject.run
+    end
+  end
 end
