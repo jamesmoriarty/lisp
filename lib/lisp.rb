@@ -31,10 +31,12 @@ module Lisp
 
   def self.atom token
     case token
-    when /\d/
-      token.to_f % 1 > 0 ? token.to_f : token.to_i
+    when /^[0-9]+$/
+      token.to_i
+    when /[0-9]+\.?[0-9]+?$/
+      token.to_f
     else
-      token.to_sym
+      token[0] == token[-1] && token[0] == ?' ? token.slice(1..-2) : token.to_sym
     end
   end
 
