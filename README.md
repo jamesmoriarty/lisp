@@ -6,7 +6,7 @@ lisp
 Lisp Interpreter in the Ruby Programming Language - 70 LOC. Inspired by [Lis.py](http://norvig.com/lispy.html).
 
 ```
-$ lisp-rb 
+$ lisp-repl
 ctrl-c to exit
 > (begin                                                                        
 (>   (define incf                                                               
