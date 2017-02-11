@@ -1,9 +1,9 @@
 #!/usr/bin/env ruby
 
-require 'coolline'
-require 'coderay'
+require "coolline"
+require "coderay"
 
-require 'lisp/ext/proc'
+require "lisp/ext/proc"
 
 module Lisp
   class REPL
@@ -20,9 +20,9 @@ module Lisp
     end
 
     def run
-      trap('SIGINT') { throw :exit }
+      trap("SIGINT") { throw :exit }
 
-      puts 'ctrl-c to exit'
+      puts "ctrl-c to exit"
 
       catch(:exit) do
         loop do
@@ -34,7 +34,7 @@ module Lisp
 
               reset_input!
             end
-          rescue StandardError => e
+          rescue Exception => e
             puts e.message
 
             reset_input!
@@ -47,20 +47,20 @@ module Lisp
 
     def prompt
       count = open_count - close_count
-      char  = count > 0 ? '(' : ')'
+      char  = count > 0 ? ?( : ?)
       "#{char * count}> "
     end
 
     def reset_input!
-      @input = ''
+      @input = String.new
     end
 
     def open_count
-      tokens.count('(')
+      tokens.count(?()
     end
 
     def close_count
-      tokens.count(')')
+      tokens.count(?))
     end
 
     def tokens
