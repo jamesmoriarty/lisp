@@ -1,3 +1,3 @@
 module Lisp
-  VERSION = '1.4.1'.freeze
+  VERSION = '1.4.2'.freeze
 end
