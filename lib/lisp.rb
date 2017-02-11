@@ -39,8 +39,8 @@ module Lisp
   end
 
   def self.execute expression, scope = global
-    return scope[expression] if     expression.is_a? Symbol
-    return expression        unless expression.is_a? Array
+    return scope.fetch(expression) { |var| raise "#{var} is undefined" } if expression.is_a? Symbol
+    return expression                                                    unless expression.is_a? Array
 
     case expression[0]
     when :define
@@ -58,7 +58,7 @@ module Lisp
       if scope.has_key?(var) then scope[var] = execute expression, scope else raise "#{var} is undefined" end
     when :begin
       _, *expression = expression
-      expression.map { |expression| execute expression }.last
+      expression.map { |expression| execute expression, scope }.last
     else
       function, *args = expression.map { |expression| execute expression, scope }
       function.call *args
