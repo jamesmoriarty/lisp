@@ -1,6 +1,6 @@
 class Proc
   def to_s
-    "(lambda (...) (...))"
+    '(lambda (...) (...))'
   end
 
   def inspect
