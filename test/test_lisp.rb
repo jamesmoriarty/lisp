@@ -72,6 +72,15 @@ class TestLisp < MiniTest::Unit::TestCase
     eos
   end
 
+  def test_lambda_no_args
+    assert_equal 42, Lisp.eval(<<-eos)
+      (begin
+        (define test
+          (lambda () 42))
+        (test))
+    eos
+  end
+
   def test_lambda_call_self
     assert_equal 3628800, Lisp.eval(<<-eos)
       (begin
@@ -93,6 +102,21 @@ class TestLisp < MiniTest::Unit::TestCase
     eos
   end
 
+  def test_nested_begin
+    assert_raises(RuntimeError, "one is undefined") do
+      Lisp.eval(<<-eos)
+        (begin
+          (define test
+            (lambda ()
+              (begin
+                (define one 1)
+                (+ one 1))))
+          (test)
+          (+ 2 one))
+      eos
+    end
+  end
+
   def test_program
     assert_equal 2, Lisp.eval(<<-eos)
       (begin
@@ -112,7 +136,7 @@ class TestLisp < MiniTest::Unit::TestCase
       Process.kill("INT", pid)
       thread.join
     end
-    
+
     assert_output("ctrl-c to exit\n") do
       subject.run
     end
