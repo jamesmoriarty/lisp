@@ -1,6 +1,9 @@
 #!/usr/bin/env ruby
+
 require "coolline"
 require "coderay"
+
+require "lisp/ext/proc"
 
 module Lisp
   class REPL
