@@ -1,7 +1,7 @@
 lisp
 ====
 
-[![Build Status](https://travis-ci.org/jamesmoriarty/lisp.svg?branch=master)](https://travis-ci.org/jamesmoriarty/lisp)
+![Gem][1] ![Build Status][2]
 
 Lisp Interpreter in the Ruby Programming Language - 70 LOC. Inspired by [Lis.py](http://norvig.com/lispy.html).
 
@@ -20,7 +20,7 @@ ctrl-c to exit
 
 Install
 -------
-[![Gem Version](https://badge.fury.io/rb/lisp.svg)](http://badge.fury.io/rb/lisp)
+![Gem Version][3]
 
 ```
 gem install lisp
@@ -46,3 +46,7 @@ Features
 - [x] __assignment__ -	(set! var exp)	Evaluate exp and assign that value to var, which must have been previously defined (with a define or as a parameter to an enclosing procedure). _Example: (set! x2 (* x x))_
 
 - [x] __sequencing__ -	(begin exp...)	 Evaluate each of the expressions in left-to-right order, and return the final value. _Example: (begin (set! x 1) (set! x (+ x 1)) (* x 2)) ⇒ 4_
+
+[1]: https://img.shields.io/gem/dt/lisp
+[2]: https://travis-ci.org/jamesmoriarty/lisp.svg?branch=master
+[3]: https://img.shields.io/gem/v/lisp
