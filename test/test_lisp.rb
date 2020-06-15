@@ -22,8 +22,9 @@ class TestLisp < MiniTest::Unit::TestCase
   # representation
 
   def test_representation
-    assert_equal [:*, 2, [:+, 1, 0]],                              Lisp.parse(Lisp.tokenize("(* 2 (+ 1 0) )"))
+    assert_equal [:*, 2, [:+, 1.5, 0]],                            Lisp.parse(Lisp.tokenize("(* 2 (+ 1.5 0) )"))
     assert_equal [:lambda, [:r], [:*, 3.141592653, [:*, :r, :r]]], Lisp.parse(Lisp.tokenize("(lambda (r) (* 3.141592653 (* r r)))"))
+    assert_equal [:+, "hello", "world"],                           Lisp.parse(Lisp.tokenize("(+ 'hello' 'world')"))
   end
 
   # execution
