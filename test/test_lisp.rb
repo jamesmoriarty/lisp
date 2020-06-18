@@ -14,22 +14,31 @@ class TestLisp < MiniTest::Unit::TestCase
     assert_equal ["(", "+", "1", "1", ")"], Lisp.tokenize("(+ 1 1)")
   end
 
-  def test_parse
+  def test_parse_open
     assert_raises(RuntimeError) { Lisp.parse(Lisp.tokenize("(")) }
+  end
+
+  def test_parse_close
     assert_raises(RuntimeError) { Lisp.parse(Lisp.tokenize(")")) }
   end
 
-  # representation
+  # ast
 
-  def test_representation
-    assert_equal [:*, 2, [:+, 1, 0]],                              Lisp.parse(Lisp.tokenize("(* 2 (+ 1 0) )"))
+  def test_ast_nested
+    assert_equal [:*, 2, [:+, 1, 0]], Lisp.parse(Lisp.tokenize("(* 2 (+ 1 0) )"))
+  end
+
+  def test_ast_call
     assert_equal [:lambda, [:r], [:*, 3.141592653, [:*, :r, :r]]], Lisp.parse(Lisp.tokenize("(lambda (r) (* 3.141592653 (* r r)))"))
   end
 
   # execution
 
-  def test_execution
+  def test_execution_return
     assert_equal 1, Lisp.execute(1)
+  end
+
+  def test_execution_reduce
     assert_equal 2, Lisp.execute([:*, 2, [:+, 1, 0]])
   end
 
@@ -45,8 +54,11 @@ class TestLisp < MiniTest::Unit::TestCase
     eos
   end
 
-  def test_if
+  def test_if_cont
     assert_equal 2, Lisp.eval("(if(== 1 2) 1 2)")
+  end
+
+  def test_if_alt
     assert_equal 1, Lisp.eval("(if(!= 1 2) 1 2)")
   end
 
