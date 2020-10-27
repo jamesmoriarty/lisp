@@ -1,7 +1,7 @@
 lisp
 ====
 
-![Gem][1] ![Build Status][2]
+![Gem Version][3] ![Gem][1] ![Build Status][2]
 
 Lisp interpreter in the Ruby programming language - 70 LOC. Inspired by [Lis.py](http://norvig.com/lispy.html).
 
@@ -20,7 +20,6 @@ ctrl-c to exit
 
 Install
 -------
-![Gem Version][3]
 
 ```
 gem install lisp
