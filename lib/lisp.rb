@@ -53,6 +53,9 @@ module Lisp
       _, test, consequent, alternative = expression
       expression                       = if execute test, scope then consequent else alternative end
       execute expression, scope
+    when :quote
+      _, expression = expression
+      expression
     when :set!
       _, var, expression                     = expression
       if scope.has_key?(var) then scope[var] = execute expression, scope else raise "#{var} is undefined" end
