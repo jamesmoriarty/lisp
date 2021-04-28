@@ -3,7 +3,7 @@ lisp
 
 ![Gem Version][3] ![Gem][1] ![Build Status][2]
 
-Lisp interpreter in the Ruby programming language and implemented in 70 lines of code (LOC). Inspired by [Lis.py](http://norvig.com/lispy.html).
+Minimal Lisp interpreter using 70LOC and only standard libraries excluding the REPL. Inspired by [Lis.py](http://norvig.com/lispy.html).
 
 ```clojure
 $ lisp-repl
