@@ -29,15 +29,6 @@ module Lisp
     end
   end
 
-  def self.atom token
-    case token
-    when /\d/
-      token.to_f % 1 > 0 ? token.to_f : token.to_i
-    else
-      token.to_sym
-    end
-  end
-
   def self.execute expression, scope = global
     return scope.fetch(expression) { |var| raise "#{var} is undefined" } if expression.is_a? Symbol
     return expression unless expression.is_a? Array
@@ -62,6 +53,17 @@ module Lisp
     else
       function, *args = expression.map { |expression| execute expression, scope }
       function.call *args
+    end
+  end
+
+  private
+
+  def self.atom token
+    case token
+    when /\d/
+      token.to_f % 1 > 0 ? token.to_f : token.to_i
+    else
+      token.to_sym
     end
   end
 
