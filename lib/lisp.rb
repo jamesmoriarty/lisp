@@ -9,7 +9,7 @@ module Lisp
   end
 
   def self.tokenize string
-    string.gsub("("," ( ").gsub(")"," ) ").split
+    string.gsub("(", " ( ").gsub(")", " ) ").split
   end
 
   def self.parse tokens, tree = []
@@ -40,21 +40,21 @@ module Lisp
 
   def self.execute expression, scope = global
     return scope.fetch(expression) { |var| raise "#{var} is undefined" } if expression.is_a? Symbol
-    return expression                                                    unless expression.is_a? Array
+    return expression unless expression.is_a? Array
 
     case expression[0]
     when :define
       _, var, expression = expression
-      scope[var]         = execute expression, scope
+      scope[var] = execute expression, scope
     when :lambda
       _, params, expression = expression
       lambda { |*args| execute expression, scope.merge(Hash[params.zip(args)]) }
     when :if
       _, test, consequent, alternative = expression
-      expression                       = if execute test, scope then consequent else alternative end
+      expression = if execute test, scope then consequent else alternative end
       execute expression, scope
     when :set!
-      _, var, expression                     = expression
+      _, var, expression = expression
       if scope.has_key?(var) then scope[var] = execute expression, scope else raise "#{var} is undefined" end
     when :begin
       _, *expression = expression
