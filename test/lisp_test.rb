@@ -126,6 +126,8 @@ class TestLisp < MiniTest::Unit::TestCase
   end
 
   def test_repl
+    skip if ENV['CI']
+
     pid     = Process.pid
     subject = Lisp::REPL.new
     thread  = Thread.new do
