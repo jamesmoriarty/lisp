@@ -1,13 +1,12 @@
 #!/usr/bin/env ruby
 require "bundler/setup"
 
-Dir[File.expand_path(File.join(File.dirname(__FILE__),'support', '*.rb'))].each { |file| require file }
+Dir[File.expand_path(File.join(File.dirname(__FILE__), 'support', '*.rb'))].each { |file| require file }
 
 require "lisp"
 require "minitest/autorun"
 
 class TestLisp < MiniTest::Unit::TestCase
-
   # parser
 
   def test_tokenize
@@ -29,7 +28,8 @@ class TestLisp < MiniTest::Unit::TestCase
   end
 
   def test_ast_call
-    assert_equal [:lambda, [:r], [:*, 3.141592653, [:*, :r, :r]]], Lisp.parse(Lisp.tokenize("(lambda (r) (* 3.141592653 (* r r)))"))
+    assert_equal [:lambda, [:r], [:*, 3.141592653, [:*, :r, :r]]],
+                 Lisp.parse(Lisp.tokenize("(lambda (r) (* 3.141592653 (* r r)))"))
   end
 
   # execution
@@ -126,6 +126,8 @@ class TestLisp < MiniTest::Unit::TestCase
   end
 
   def test_repl
+    skip if ENV['CI']
+
     pid     = Process.pid
     subject = Lisp::REPL.new
     thread  = Thread.new do

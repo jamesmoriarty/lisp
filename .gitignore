@@ -2,3 +2,5 @@ Gemfile.lock
 env
 pkg
 coverage
+doc
+.yardoc
