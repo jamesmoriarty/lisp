@@ -1,6 +1,4 @@
 require "bundler/gem_tasks"
-
-require "bundler/gem_tasks"
 require "rake/testtask"
 require 'yard'
 
