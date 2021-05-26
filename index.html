@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: README
+  
+    &mdash; Documentation by YARD 0.9.26
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "README";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: README</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'>
+<h1 id="label-lisp">lisp</h1>
+
+<p><img src="https://img.shields.io/gem/v/lisp"> <img src="https://img.shields.io/gem/dt/lisp"> <img src="https://travis-ci.org/jamesmoriarty/lisp.svg?branch=master"></p>
+
+<p>Minimal Lisp interpreter using 75LOC and only standard libraries excluding the REPL. Inspired by <a href="http://norvig.com/lispy.html">Lis.py</a>.</p>
+
+<pre class="code ruby"><code class="ruby">$ lisp-repl
+ctrl-c to exit
+&gt; (begin                                                                        
+(&gt;   (define incf                                                               
+((&gt;     (lambda (x)                                                             
+(((&gt;       (set! x (+ x 1))))                                                   
+(&gt;   (define one 1)                                                             
+(&gt;   (incf one))                                                                
+2
+&gt;
+</code></pre>
+
+<h2 id="label-Install">Install</h2>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_gem'>gem</span> <span class='id identifier rubyid_install'>install</span> <span class='id identifier rubyid_lisp'>lisp</span>
+</code></pre>
+
+<h2 id="label-Usage">Usage</h2>
+
+<pre class="code ruby"><code class="ruby">require &quot;lisp&quot;
+
+Lisp.eval(&lt;&lt;-eos)
+  (begin
+    (define fact
+      (lambda (n)
+        (if (&lt;= n 1)
+          1
+          (* n (fact (- n 1))))))
+    (fact 10))
+eos # =&gt; 3628800
+</code></pre>
+
+<h2 id="label-Commandline">Commandline</h2>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_lisp'>lisp</span><span class='op'>-</span><span class='id identifier rubyid_repl'>repl</span>
+</code></pre>
+
+<h2 id="label-Features">Features</h2>
+<ul><li>
+<p>[x] <strong>constant literal number</strong> - A number evaluates to itself. <em>Example: 12 or -3.45e+6</em></p>
+</li><li>
+<p>[x] <strong>procedure call</strong> - (proc exp…) If proc is anything other than one of the symbols if, set!, define, lambda, begin, or quote then it is treated as a procedure. It is evaluated using the same rules defined here. All the expressions are evaluated as well, and then the procedure is called with the list of expressions as arguments. <em>Example: (square 12) ⇒ 144</em></p>
+</li><li>
+<p>[x] <strong>variable reference</strong> - var A symbol is interpreted as a variable name; its value is the variable&#39;s value. <em>Example: x</em></p>
+</li><li>
+<p>[x] <strong>definition</strong> - (define var exp) Define a new variable and give it the value of evaluating the expression exp. <em>Examples: (define r 3) or (define square (lambda (x) (* x x))).</em></p>
+</li><li>
+<p>[x] <strong>procedure</strong> - (lambda (var…) exp) Create a procedure with parameter(s) named var… and the expression as the body. <em>Example: (lambda ® (* 3.141592653 (* r r)))</em></p>
+</li><li>
+<p>[x] <strong>conditional</strong> - (if test conseq alt) Evaluate test; if true, evaluate and return conseq; otherwise evaluate and return alt. <em>Example: (if (&lt; 10 20) (+ 1 1) (+ 3 3)) ⇒ 2</em></p>
+</li><li>
+<p>[ ] <strong>quotation</strong> - (quote exp) Return the exp literally; do not evaluate it. <em>Example: (quote (a b c)) ⇒ (a b c)</em></p>
+</li><li>
+<p>[x] <strong>assignment</strong> - (set! var exp) Evaluate exp and assign that value to var, which must have been previously defined (with a define or as a parameter to an enclosing procedure). <em>Example: (set! x2 (* x x))</em></p>
+</li><li>
+<p>[x] <strong>sequencing</strong> - (begin exp…) Evaluate each of the expressions in left-to-right order, and return the final value. <em>Example: (begin (set! x 1) (set! x (+ x 1)) (* x 2)) ⇒ 4</em></p>
+</li></ul>
+</div></div>
+
+      <div id="footer">
+  Generated on Wed May 26 18:38:06 2021 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.26 (ruby-2.6.3).
+</div>
+
+    </div>
+  </body>
+</html>
