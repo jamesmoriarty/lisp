@@ -49,6 +49,13 @@ Commandline
 lisp-repl
 ```
 
+Documentation
+-------------
+
+[Yardoc](https://www.jamesmoriarty.xyz/lisp/)
+
+[Rubygem](https://rubygems.org/gems/lisp)
+
 
 Features
 --------
