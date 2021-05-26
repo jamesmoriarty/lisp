@@ -9,9 +9,9 @@ Gem::Specification.new do |spec|
   spec.version       = Lisp::VERSION
   spec.authors       = ["James Moriarty"]
   spec.email         = ["jamespaulmoriarty@gmail.com"]
-  spec.summary       = %q{Lisp Interpreter in Ruby.}
-  spec.description   = ""
-  spec.homepage      = ""
+  spec.summary       = %q{Lisp interpreter}
+  spec.description   = "Minimal Lisp interpreter using 75LOC and only standard libraries excluding the REPL. Inspired by Lis.py."
+  spec.homepage      = "https://github.com/jamesmoriarty/lisp"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
