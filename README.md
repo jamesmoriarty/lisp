@@ -79,5 +79,5 @@ Features
 - [x] __sequencing__ -	(begin exp...)	 Evaluate each of the expressions in left-to-right order, and return the final value. _Example: (begin (set! x 1) (set! x (+ x 1)) (* x 2)) ⇒ 4_
 
 [1]: https://img.shields.io/gem/dt/lisp
-[2]: https://travis-ci.org/jamesmoriarty/lisp.svg?branch=master
+[2]: https://github.com/jamesmoriarty/lisp/actions/workflows/ci.yaml/badge.svg
 [3]: https://img.shields.io/gem/v/lisp
