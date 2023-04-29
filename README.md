@@ -31,7 +31,7 @@ Usage
 ```clojure
 require "lisp"
 
-Lisp.eval(<<-eos)
+Lisp.eval(<<-eos
   (begin
     (define fact
       (lambda (n)
@@ -39,7 +39,8 @@ Lisp.eval(<<-eos)
           1
           (* n (fact (- n 1))))))
     (fact 10))
-eos # => 3628800
+  eos
+) # => 3628800
 ```
 
 Commandline
